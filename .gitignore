@@ -1,6 +1,9 @@
 # Virtual environment
 venv/
 
+# shape_predictor
+shape_predictor_68_face_landmarks.dat
+
 # Trained AI models
 spoof_cnn_model.h5
 fusion_rf_model.pkl
@@ -23,3 +26,4 @@ roc_curve.png
 __pycache__/
 *.pyc
 *.pyo
+
