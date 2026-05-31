@@ -103,6 +103,65 @@ def collect_samples(label: str, n_samples: int = 200):
 
 
 # ══════════════════════════════════════════════════════════════════════════════
+# Training curve plot
+# ══════════════════════════════════════════════════════════════════════════════
+def _plot_training_curve():
+    import csv
+    import matplotlib.pyplot as plt
+
+    if not os.path.exists('training_log.csv'):
+        return
+
+    epochs, train_acc, val_acc, train_loss, val_loss = [], [], [], [], []
+    with open('training_log.csv') as f:
+        for row in csv.DictReader(f):
+            epochs.append(int(row['epoch']) + 1)
+            train_acc.append(float(row['accuracy']) * 100)
+            val_acc.append(float(row['val_accuracy']) * 100)
+            train_loss.append(float(row['loss']))
+            val_loss.append(float(row['val_loss']))
+
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(13, 5), facecolor='white')
+    fig.suptitle('MobileNetV2 CNN Training History — Spoof Detection',
+                 fontsize=14, fontweight='bold')
+
+    # Accuracy
+    ax1.plot(epochs, train_acc, color='#2563EB', lw=2, marker='o',
+             markersize=4, label='Training Accuracy')
+    ax1.plot(epochs, val_acc, color='#16A34A', lw=2, marker='s',
+             markersize=4, label='Validation Accuracy', ls='--')
+    best_ep = val_loss.index(min(val_loss))
+    ax1.axvline(x=epochs[best_ep], color='#DC2626', lw=1.2, ls=':', alpha=0.7)
+    ax1.annotate(f'Best epoch: {epochs[best_ep]}\nVal acc: {val_acc[best_ep]:.1f}%',
+                 xy=(epochs[best_ep], val_acc[best_ep]),
+                 xytext=(epochs[best_ep]+1.2, val_acc[best_ep]-10),
+                 fontsize=8.5, color='#DC2626',
+                 arrowprops=dict(arrowstyle='->', color='#DC2626', lw=1.0))
+    ax1.set_xlabel('Epoch'); ax1.set_ylabel('Accuracy (%)')
+    ax1.set_title('Model Accuracy', fontweight='bold')
+    ax1.set_ylim(50, 105); ax1.legend(fontsize=9)
+    ax1.spines['top'].set_visible(False); ax1.spines['right'].set_visible(False)
+    ax1.grid(axis='y', color='#EEEEEE', lw=0.8)
+
+    # Loss
+    ax2.plot(epochs, train_loss, color='#2563EB', lw=2, marker='o',
+             markersize=4, label='Training Loss')
+    ax2.plot(epochs, val_loss, color='#16A34A', lw=2, marker='s',
+             markersize=4, label='Validation Loss', ls='--')
+    ax2.axvline(x=epochs[best_ep], color='#DC2626', lw=1.2, ls=':', alpha=0.7)
+    ax2.set_xlabel('Epoch'); ax2.set_ylabel('Loss')
+    ax2.set_title('Model Loss', fontweight='bold')
+    ax2.legend(fontsize=9)
+    ax2.spines['top'].set_visible(False); ax2.spines['right'].set_visible(False)
+    ax2.grid(axis='y', color='#EEEEEE', lw=0.8)
+
+    plt.tight_layout()
+    plt.savefig('training_curve.png', dpi=200, bbox_inches='tight', facecolor='white')
+    plt.close()
+    print("[SAVED]  Training curve saved to training_curve.png")
+
+
+# ══════════════════════════════════════════════════════════════════════════════
 # Training
 # ══════════════════════════════════════════════════════════════════════════════
 def train_model():
@@ -112,7 +171,7 @@ def train_model():
         from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Dropout
         from tensorflow.keras.models import Model
         from tensorflow.keras.optimizers import Adam
-        from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
+        from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint, CSVLogger
         from sklearn.model_selection import train_test_split
     except ImportError:
         print("[ERROR] Install TensorFlow: pip install tensorflow")
@@ -177,6 +236,7 @@ def train_model():
     callbacks = [
         EarlyStopping(patience=5, restore_best_weights=True, verbose=1),
         ModelCheckpoint(MODEL_PATH, save_best_only=True, verbose=1),
+        CSVLogger('training_log.csv', append=False),
     ]
 
     print("[TRAIN] Training (Phase 1 — head only)...")
@@ -205,6 +265,10 @@ def train_model():
     loss, acc = model.evaluate(X_val, y_val, verbose=0)
     print(f"\n[RESULT] Validation accuracy: {acc*100:.1f}%  Loss: {loss:.4f}")
     print(f"[SAVED]  Model saved to {MODEL_PATH}")
+    print(f"[SAVED]  Training log saved to training_log.csv")
+
+    # ── Plot training curve ───────────────────────────────────────────────────
+    _plot_training_curve()
 
 
 # ══════════════════════════════════════════════════════════════════════════════
