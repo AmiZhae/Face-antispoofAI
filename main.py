@@ -44,7 +44,7 @@ DARK   = (30,   30,  30)
 ORANGE = (0,   165, 255)
 PURPLE = (200,   0, 200)
 
-WINDOW = "Liveness Detection FYP"
+WINDOW = "AI Anti-Spoofing Face Recognition System"
 
 
 # ══════════════════════════════════════════════════════════════════════════════
