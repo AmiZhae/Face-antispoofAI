@@ -1,0 +1,25 @@
+# Virtual environment
+venv/
+
+# Trained AI models
+spoof_cnn_model.h5
+fusion_rf_model.pkl
+lbp_calibration.pkl
+
+# Face database and personal data
+face_db.pkl
+known_faces/
+cnn_training_data/
+
+# Experiment outputs
+attendance_log.csv
+experiment_results.csv
+experiment_results_BEFORE.csv
+experiment_results_AFTER.csv
+comparison_table.csv
+roc_curve.png
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
