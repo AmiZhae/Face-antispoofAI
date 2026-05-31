@@ -1,0 +1,9 @@
+opencv-python
+dlib
+scipy
+numpy
+scikit-image
+matplotlib
+scikit-learn
+tensorflow
+deepface
