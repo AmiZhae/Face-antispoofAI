@@ -1,7 +1,3 @@
-"""
-config.py – All tunable parameters in one place.
-"""
-
 # ── Paths ─────────────────────────────────────────────────────────────────────
 LANDMARK_MODEL   = "shape_predictor_68_face_landmarks.dat"
 KNOWN_FACES_DIR  = "known_faces"

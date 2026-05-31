@@ -1,15 +1,3 @@
-"""
-face_rec.py – DeepFace ArcFace recognition + attendance logging.
-
-Replaces dlib ResNet with DeepFace ArcFace — a state-of-the-art
-deep learning face recognition model significantly more accurate
-under lighting and angle variation.
-
-Requirements
-------------
-  pip install deepface tensorflow opencv-python
-"""
-
 import os
 import csv
 import pickle

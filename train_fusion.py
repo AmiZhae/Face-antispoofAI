@@ -1,21 +1,3 @@
-"""
-train_fusion.py – Train a Random Forest classifier to replace hardcoded fusion weights.
-
-Reads your existing experiment_results.csv and trains a Random Forest
-that learns the optimal decision boundary from real experimental data.
-
-Usage
------
-  python train_fusion.py          # train from existing CSV
-  python train_fusion.py --eval   # train + print evaluation report
-
-After training, fusion_rf_model.pkl is saved and used automatically by liveness.py.
-
-Requirements
-------------
-  pip install scikit-learn numpy
-"""
-
 import argparse
 import os
 import csv

@@ -1,7 +1,3 @@
-"""
-experiment.py – Experiment recording and FYP evaluation metrics.
-"""
-
 import csv
 import os
 from datetime import datetime

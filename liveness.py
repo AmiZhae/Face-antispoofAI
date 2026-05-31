@@ -1,15 +1,3 @@
-"""
-liveness.py – EAR blink, CNN spoof detection, challenge-response, AI fusion.
-
-Spoof detection priority:
-  1. CNN (MobileNetV2) — if spoof_cnn_model.h5 exists
-  2. LBP + entropy fallback — if CNN not trained yet
-
-Fusion priority:
-  1. Random Forest — if fusion_rf_model.pkl exists
-  2. Weighted sum fallback — if RF not trained yet
-"""
-
 import os
 import pickle
 import time

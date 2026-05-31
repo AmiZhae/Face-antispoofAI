@@ -1,22 +1,3 @@
-"""
-train_cnn.py – Train a small MobileNetV2 CNN to replace LBP texture analysis.
-
-Collects face ROI samples from your webcam during training, then fine-tunes
-MobileNetV2 to classify REAL skin vs FAKE (photo/screen).
-
-Usage
------
-  python train_cnn.py --collect          # collect training samples
-  python train_cnn.py --train            # train the CNN
-  python train_cnn.py --collect --train  # do both in one step
-
-After training, spoof_cnn_model.h5 is saved and used automatically by liveness.py.
-
-Requirements
-------------
-  pip install tensorflow opencv-python numpy scikit-learn
-"""
-
 import argparse
 import os
 import time
